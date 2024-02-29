@@ -1,82 +1,70 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  return runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
+          title: Center(child: Text('Dicee')),
           backgroundColor: Colors.red,
-          title: const Text(
-            "Dicee",
-          ),
-          centerTitle: true,
         ),
-        body: const DiceePage(),
+        body: DicePage(),
       ),
-    );
-  }
+    ),
+  );
 }
 
-class DiceePage extends StatefulWidget {
-  const DiceePage({super.key});
+class DicePage extends StatefulWidget {
+  const DicePage({super.key});
 
   @override
-  State<DiceePage> createState() => _DiceePageState();
+  State<DicePage> createState() => _DicePageState();
 }
 
-class _DiceePageState extends State<DiceePage> {
-  int leftDiceNumber = 1, rightDiceNumber = 1;
-  void changeDice(bool side) {
+class _DicePageState extends State<DicePage> {
+  int rightdicenumber = 5;
+  int leftdicenumber = 6;
+
+  void roll() {
     setState(() {
-      if (side == true) {
-        leftDiceNumber = Random().nextInt(6) + 1;
-      } else {
-        rightDiceNumber = Random().nextInt(6) + 1;
-      }
+      leftdicenumber = Random().nextInt(6) + 1;
+      rightdicenumber = Random().nextInt(6) + 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: IconButton(
-            padding: const EdgeInsets.all(16),
-            splashColor: Colors.transparent,
-            splashRadius: 0.1,
-            onPressed: () {
-              changeDice(true);
-            },
-            icon: Image.asset(
-              "images/dice$leftDiceNumber.png",
+    return Center(
+      child: Row(
+        children: [
+          Expanded(
+              child: TextButton(
+                  onPressed: () {
+                    //print("left button is pressed");
+                    roll();
+
+                },
+              child: Image.asset('images/dice$leftdicenumber.png'),
+
+                  )),
+
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  rightdicenumber = Random().nextInt(6) + 1;
+                });
+
+                // print("right button is pressed");
+              },
+              child: Image.asset('images/dice$rightdicenumber.png'),
             ),
           ),
-        ),
-        Expanded(
-          child: IconButton(
-            onPressed: () {
-              changeDice(false);
-            },
-            padding: const EdgeInsets.all(16),
-            splashColor: Colors.transparent,
-            splashRadius: 0.1,
-            icon: Image.asset(
-              'images/dice$rightDiceNumber.png',
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
